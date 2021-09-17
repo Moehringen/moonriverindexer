@@ -16,23 +16,11 @@ network:
       Account: 
         nonce: U256
         balance: u128
-      RoundIndex: u32
-      AccountId32: H256
-      AuthorId: AccountId32
-      Collator2: 
-        id: AccountId
-        bond: Balance
-        nominators: Vec<AccountId>
-        top_nominators: Vec<Bond>
-        bottom_nominators: Vec<Bond>
-        total_counted: Balance
-        total_backing: Balance
-        state: CollatorStatus
       RewardInfo: 
         total_reward: Balance
         claimed_reward: Balance
         contributed_relay_addresses: Vec<RelayChainAccountId>
-        VestingBlockNumber: u32
+      VestingBlockNumber: u32
       NominatorStatus: 
         _enum: 
           Active: "Null"
@@ -53,10 +41,6 @@ network:
         r: H256
         s: H256
         v: u8 
-      NominatorAdded: 
-        _enum: 
-          AddedToTop: Balance
-          AddedToBottom: "Null" 
       Collator2: 
         id: AccountId
         bond: Balance
@@ -79,10 +63,6 @@ network:
       AccountId32: H256
       AuthorId: AccountId32
       RelayChainAccountId: AccountId32
-      RewardInfo: 
-        total_reward: Balance
-        claimed_reward: Balance
-      AuthorId: AccountId
       AccountInfo: AccountInfoWithTripleRefCount
       Candidate: 
         id: AccountId
@@ -129,15 +109,8 @@ network:
         current: RoundIndex
         first: BlockNumber
         length: u32
-        ExtrinsicSignature: "EthereumSignature",
+        ExtrinsicSignature: "EthereumSignature"
       RoundIndex: u32
-      Candidate: 
-        id: AccountId
-        fee: Perbill
-        bond: Balance
-        nominators: Vec<Bond>
-        total: Balance
-        state: ValidatorStatus
       Nominator: 
         nominations: Vec<Bond>
         total: Balance
