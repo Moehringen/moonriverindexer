@@ -1,7 +1,6 @@
 import {SubstrateExtrinsic,SubstrateEvent,SubstrateBlock} from "@subql/types";
 import {Round} from "../types";
 import {Balance} from "@polkadot/types/interfaces";
-import { Block,Event } from '../types/models';
 
 
 export async function handleBlock(block: SubstrateBlock): Promise<void> {
