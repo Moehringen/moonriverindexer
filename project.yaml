@@ -60,7 +60,8 @@ dataSources:
     kind: substrate/Runtime
     startBlock: 1
     mapping:
-     - handler: handleRoundCreated
+      handlers:
+        - handler: handleRoundCreated
           kind: substrate/EventHandler
           filter:
             module: parachainstaking
