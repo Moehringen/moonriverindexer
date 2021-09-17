@@ -4,7 +4,7 @@ repository: git@github.com:Moehringen/moonriverindexer.git
 schema: ./schema.graphql
 network:
   #endpoint: wss://wss.moonriver.moonbeam.network
-  endpoint: wss://wss.moonriver.api.onfinality.io
+  endpoint: wss://moonriver.api.onfinality.io
   #dictionary: https://api.subquery.network/sq/subquery/dictionary-polkadot
   types:
       RoundIndex: u32
