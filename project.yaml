@@ -37,10 +37,10 @@ network:
         nominators_leaving: Vec<AccountId>
         candidate_schedule: Vec<(AccountId, RoundIndex)>
         nominator_schedule: Vec<(AccountId, Option<AccountId>, RoundIndex)>
-      EthereumSignature: 
-        r: h256
-        s: h256
-        v: u8 
+      #EthereumSignature: 
+        #r: h256
+        #s: h256
+        #v: u8 
       Collator2: 
         id: AccountId
         bond: Balance
@@ -109,7 +109,7 @@ network:
         current: RoundIndex
         first: BlockNumber
         length: u32
-        ExtrinsicSignature: EthereumSignature
+        #ExtrinsicSignature: EthereumSignature
       RoundIndex: u32
       Nominator: 
         nominations: Vec<Bond>
