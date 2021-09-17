@@ -109,7 +109,7 @@ network:
         current: RoundIndex
         first: BlockNumber
         length: u32
-        ExtrinsicSignature: "EthereumSignature"
+        ExtrinsicSignature: EthereumSignature
       RoundIndex: u32
       Nominator: 
         nominations: Vec<Bond>
