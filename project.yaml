@@ -33,7 +33,7 @@ network:
         _enum: 
           Active: "Null"
           Idle: "Null"
-          Leaving: "RoundIndex" 
+          Leaving: RoundIndex
       TxPoolResultContent: 
         pending: HashMap<H160, HashMap<U256, PoolTransaction>>
         queued: HashMap<H160, HashMap<U256, PoolTransaction>>
