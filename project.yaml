@@ -8,6 +8,8 @@ network:
   #dictionary: https://api.subquery.network/sq/subquery/dictionary-polkadot
   types:
       RoundIndex: u32
+      AccountId32: H256
+      AuthorId: AccountId32
 dataSources:
   - name: main
     kind: substrate/Runtime
