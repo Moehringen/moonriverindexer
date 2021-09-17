@@ -38,8 +38,8 @@ network:
         candidate_schedule: Vec<(AccountId, RoundIndex)>
         nominator_schedule: Vec<(AccountId, Option<AccountId>, RoundIndex)>
       EthereumSignature: 
-        r: H256
-        s: H256
+        r: h256
+        s: h256
         v: u8 
       Collator2: 
         id: AccountId
