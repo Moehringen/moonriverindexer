@@ -19,11 +19,13 @@ export async function handleCall(extrinsic: SubstrateExtrinsic): Promise<void> {
 
 }
 
-export async function handleRoundCreated(event,rawEvent): Promise<void> {
-    logger.info(`New Round created: ${event.data}`)
-    let id = 'RoundCreated'+ event.extrinsic.block.block.header.hash.toString();
+export async function handleRoundCreated(event): Promise<void> {
+    logger.info(`New Round created: ${JSON.stringify(event)}`);
+    const {event: {data: [blockNumber,roundindex,collators,balance]}} = event;
+    logger.info(`New Round created: ${roundindex}`);
+    let id = 'RoundCreated' + roundindex;
     let record = new Round(id);
-    record.roundindex = event.data.RoundIndex;
+    record.roundindex = roundindex;
     await record.save();
   }
 
