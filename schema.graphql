@@ -2,3 +2,11 @@ type Round @entity {
   id: ID!
   roundindex:String
 }
+
+type Collator @entity{
+  id: ID!
+}
+
+type Nominator @entity{
+  id: ID!
+}
