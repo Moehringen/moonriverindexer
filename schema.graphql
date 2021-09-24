@@ -41,6 +41,6 @@ type RewardHistory @entity{
   id:ID!
   account: String!@index
   issueBlock: BigInt
-  issueindex: String
+  issueroundindex: String
   realroundindex:String
 }

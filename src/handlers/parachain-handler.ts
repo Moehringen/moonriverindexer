@@ -2,6 +2,7 @@ import { SubstrateBlock, SubstrateEvent } from '@subql/types';
 import {Collator, Round} from "../types";
 import { Actiontype } from '../constants';
 import { NominatorActionHistory } from '../types/models/NominatorActionHistory';
+import { RewardHistory } from '../types/models/RewardHistory';
 
 export const handleNewRoundStarted = async (substrateEvent: SubstrateEvent) => {
   const { event, block } = substrateEvent;
@@ -170,7 +171,36 @@ export const handleNominatorLeftCollator = async (substrateEvent: SubstrateEvent
   nominationActionHistory.balancechange =  ( negtiveBalance / Math.pow(10, 18)).toString();
   nominationActionHistory.blocknumber = BigInt(blockNum.toNumber());
   nominationActionHistory.actiontype = Actiontype.LEFT;
-  nominationActionHistory.save();
+  nominationActionHistory.save(); 
+}
+
+
+
+export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
+  const { event, block } = substrateEvent;
+  const { timestamp: createdAt, block: rawBlock } = block;
+  const { number: blockNum } = rawBlock.header;
+
+  logger.info(`Reward happens: ${JSON.stringify(event)}`);
+  logger.info(`Reward at:` + blockNum);
+
+  const [account,balance] = event.data.toJSON() as [string, string];
+  let issueroundindex = Math.floor(blockNum.toNumber()/300) + 1;
+  let realroundindex = issueroundindex - 2;
+  let id = account;
+
+  let rewardHistory = await RewardHistory.get(id);
+  if (!rewardHistory) {
+    logger.info('create rewardHistory trigger by Rewarded Event');
+    rewardHistory = new RewardHistory(id);
+  }
+  rewardHistory.id = id;
+  rewardHistory.account = account;
+  rewardHistory.issueBlock = BigInt(blockNum.toNumber());
+  rewardHistory.issueroundindex = issueroundindex.toString();
+  rewardHistory.realroundindex = realroundindex.toString();
+
+  rewardHistory.save();
 
  
 }
