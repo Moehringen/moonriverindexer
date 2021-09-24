@@ -1,5 +1,5 @@
 export const ChronicleKey = 'ChronicleKey';
-export const Actiontype = {
+export const NominationActiontype = {
         "NOMINATIONTOTOP":"addedToTop",
         "NOMINATIONTOBOTTOM":"addedToBottom",
         "INCREASE":"increase",

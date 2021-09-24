@@ -1,6 +1,6 @@
 import { SubstrateBlock, SubstrateEvent } from '@subql/types';
 import {Collator, Round} from "../types";
-import { Actiontype } from '../constants';
+import { NominationActiontype } from '../constants';
 import { NominatorActionHistory } from '../types/models/NominatorActionHistory';
 import { RewardHistory } from '../types/models/RewardHistory';
 
@@ -72,10 +72,10 @@ export const handleNomination= async (substrateEvent: SubstrateEvent) => {
   }
   let balanceDec = Number(BigInt(balance).toString(10));
   Object.keys(nominatoradd).forEach(function(key){
-    if(key === Actiontype.NOMINATIONTOTOP)
-    nominationActionHistory.actiontype = Actiontype.NOMINATIONTOTOP;
+    if(key === NominationActiontype.NOMINATIONTOTOP)
+    nominationActionHistory.actiontype = NominationActiontype.NOMINATIONTOTOP;
     else
-    nominationActionHistory.actiontype = Actiontype.NOMINATIONTOBOTTOM;
+    nominationActionHistory.actiontype = NominationActiontype.NOMINATIONTOBOTTOM;
   });
   nominationActionHistory.roundindex = roundindex.toString();
   nominationActionHistory.account = nominatoraccount;
@@ -110,7 +110,7 @@ export const handleNominationIncreased= async (substrateEvent: SubstrateEvent) =
   nominationActionHistory.collator = collatoraccount;
   nominationActionHistory.balancechange =  ( balanceDec / Math.pow(10, 18)).toString();
   nominationActionHistory.blocknumber = BigInt(blockNum.toNumber());
-  nominationActionHistory.actiontype = Actiontype.INCREASE;
+  nominationActionHistory.actiontype = NominationActiontype.INCREASE;
   nominationActionHistory.save();
 
 
@@ -141,7 +141,7 @@ export const handleNominationDecreased= async (substrateEvent: SubstrateEvent) =
   nominationActionHistory.collator = collatoraccount;
   nominationActionHistory.balancechange =  ( negtiveBalance / Math.pow(10, 18)).toString();
   nominationActionHistory.blocknumber = BigInt(blockNum.toNumber());
-  nominationActionHistory.actiontype = Actiontype.DECREASE;
+  nominationActionHistory.actiontype = NominationActiontype.DECREASE;
   nominationActionHistory.save();
 }
 
@@ -170,7 +170,7 @@ export const handleNominatorLeftCollator = async (substrateEvent: SubstrateEvent
   nominationActionHistory.collator = collatoraccount;
   nominationActionHistory.balancechange =  ( negtiveBalance / Math.pow(10, 18)).toString();
   nominationActionHistory.blocknumber = BigInt(blockNum.toNumber());
-  nominationActionHistory.actiontype = Actiontype.LEFT;
+  nominationActionHistory.actiontype = NominationActiontype.LEFT;
   nominationActionHistory.save(); 
 }
 
