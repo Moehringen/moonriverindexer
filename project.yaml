@@ -5,8 +5,10 @@ schema: ./schema.graphql
 network:
   #endpoint: wss://wss.moonriver.moonbeam.network
   #endpoint: wss://moonriver.api.onfinality.io/ws?apikey=a1e8511f-3c84-4fd6-8439-b6b8edfb5884
-  endpoint: wss://service.elara.patract.io/Moonriver/68a73896e0e22cfaa474099b4beb4087
+  #endpoint: wss://service.elara.patract.io/Moonriver/68a73896e0e22cfaa474099b4beb4087
   #dictionary: https://api.subquery.network/sq/subquery/dictionary-polkadot
+  #shmily1140@gmail.com
+  wss://moonriver.api.onfinality.io/ws?apikey=70d75730-8f86-4ea4-924e-28579479531f
   types:
       AccountId: EthereumAccountId
       Address: AccountId
