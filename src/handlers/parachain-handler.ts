@@ -1,8 +1,9 @@
 import { SubstrateBlock, SubstrateEvent } from '@subql/types';
 import {Collator, Round} from "../types";
-import { NominationActiontype } from '../constants';
+import { NominationActiontype,CollatorActiontype } from '../constants';
 import { NominatorActionHistory } from '../types/models/NominatorActionHistory';
 import { RewardHistory } from '../types/models/RewardHistory';
+import { CollatorActionHistory } from '../types/models/CollatorActionHistory';
 
 export const handleNewRoundStarted = async (substrateEvent: SubstrateEvent) => {
   const { event, block } = substrateEvent;
@@ -203,6 +204,121 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
   rewardHistory.balance = ( balanceDec / Math.pow(10, 18)).toString();
 
   rewardHistory.save();
-
- 
 }
+
+  
+
+  export const handleJoinedCollatorCandidates = async (substrateEvent: SubstrateEvent) => {
+    const { event, block } = substrateEvent;
+    const { timestamp: createdAt, block: rawBlock } = block;
+    const { number: blockNum } = rawBlock.header;
+  
+    logger.info(`Join Candidate happens: ${JSON.stringify(event)}`);
+    logger.info(`Join candidate happens at:` + blockNum);
+    const [account,selfbond,totalbond] = event.data.toJSON() as [string, string,string];
+    let roundindex = Math.floor(blockNum.toNumber()/300) + 1;
+    let id = account  + "-" + roundindex;
+  
+    let collatorActionHistory = await CollatorActionHistory.get(id);
+    if (!collatorActionHistory) {
+      collatorActionHistory = new CollatorActionHistory(id);
+    }
+    let selfbondDec = Number(BigInt(selfbond).toString(10));
+    let totalbondDec = Number(BigInt(selfbond).toString(10));
+
+    collatorActionHistory.roundindex = roundindex.toString();
+    collatorActionHistory.account = account;
+    collatorActionHistory.balancecurrent = ( selfbondDec / Math.pow(10, 18)).toString();;
+    collatorActionHistory.balancechange =  ( selfbondDec / Math.pow(10, 18)).toString();
+    collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
+    collatorActionHistory.actiontype = CollatorActiontype.JOINED;
+    collatorActionHistory.save();
+  };
+  
+  
+
+
+  export const handelCollatorBondedMore = async (substrateEvent: SubstrateEvent) => {
+    const { event, block } = substrateEvent;
+    const { timestamp: createdAt, block: rawBlock } = block;
+    const { number: blockNum } = rawBlock.header;
+  
+    logger.info(`Bond More happens: ${JSON.stringify(event)}`);
+    logger.info(`Bond More happens at:` + blockNum);
+    const [account,beforebond,afterbond] = event.data.toJSON() as [string, string,string];
+    let roundindex = Math.floor(blockNum.toNumber()/300) + 1;
+    let id = account  + "-" + roundindex;
+  
+    let collatorActionHistory = await CollatorActionHistory.get(id);
+    if (!collatorActionHistory) {
+      collatorActionHistory = new CollatorActionHistory(id);
+    }
+    let beforebondDec = Number(BigInt(beforebond).toString(10));
+    let afterbondDec = Number(BigInt(afterbond).toString(10));
+    let changebondDec = afterbondDec - beforebondDec;
+
+    collatorActionHistory.roundindex = roundindex.toString();
+    collatorActionHistory.account = account;
+    collatorActionHistory.balancecurrent = ( afterbondDec / Math.pow(10, 18)).toString();;
+    collatorActionHistory.balancechange =  ( changebondDec / Math.pow(10, 18)).toString();
+    collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
+    collatorActionHistory.actiontype = CollatorActiontype.BONDMORE;
+    collatorActionHistory.save();
+  };
+
+
+  export const handelCollatorBondedLess = async (substrateEvent: SubstrateEvent) => {
+    const { event, block } = substrateEvent;
+    const { timestamp: createdAt, block: rawBlock } = block;
+    const { number: blockNum } = rawBlock.header;
+  
+    logger.info(`Bond More happens: ${JSON.stringify(event)}`);
+    logger.info(`Bond More happens at:` + blockNum);
+    const [account,beforebond,afterbond] = event.data.toJSON() as [string, string,string];
+    let roundindex = Math.floor(blockNum.toNumber()/300) + 1;
+    let id = account  + "-" + roundindex;
+  
+    let collatorActionHistory = await CollatorActionHistory.get(id);
+    if (!collatorActionHistory) {
+      collatorActionHistory = new CollatorActionHistory(id);
+    }
+    let beforebondDec = Number(BigInt(beforebond).toString(10));
+    let afterbondDec = Number(BigInt(afterbond).toString(10));
+    let changebondDec = -Math.abs(afterbondDec - beforebondDec);
+
+    collatorActionHistory.roundindex = roundindex.toString();
+    collatorActionHistory.account = account;
+    collatorActionHistory.balancecurrent = ( afterbondDec / Math.pow(10, 18)).toString();;
+    collatorActionHistory.balancechange =  ( changebondDec / Math.pow(10, 18)).toString();
+    collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
+    collatorActionHistory.actiontype = CollatorActiontype.BONDLESS;
+    collatorActionHistory.save();
+  };
+
+  export const handleCollatorLeft = async (substrateEvent: SubstrateEvent) => {
+    const { event, block } = substrateEvent;
+    const { timestamp: createdAt, block: rawBlock } = block;
+    const { number: blockNum } = rawBlock.header;
+  
+    logger.info(`Collator happens: ${JSON.stringify(event)}`);
+    logger.info(`Collator happens at:` + blockNum);
+    const [account,beforebond,afterbond] = event.data.toJSON() as [string, string,string];
+    let roundindex = Math.floor(blockNum.toNumber()/300) + 1;
+    let id = account  + "-" + roundindex;
+  
+    let collatorActionHistory = await CollatorActionHistory.get(id);
+    if (!collatorActionHistory) {
+      collatorActionHistory = new CollatorActionHistory(id);
+    }
+    let beforebondDec = Number(BigInt(beforebond).toString(10));
+    let afterbondDec = Number(BigInt(afterbond).toString(10));
+    let changebondDec = afterbondDec - beforebondDec;
+
+    collatorActionHistory.roundindex = roundindex.toString();
+    collatorActionHistory.account = account;
+    collatorActionHistory.balancecurrent = ( afterbondDec / Math.pow(10, 18)).toString();;
+    collatorActionHistory.balancechange =  ( changebondDec / Math.pow(10, 18)).toString();
+    collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
+    collatorActionHistory.actiontype = CollatorActiontype.LEFT;
+    collatorActionHistory.save();
+  };

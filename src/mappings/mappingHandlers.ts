@@ -10,6 +10,10 @@ import {
     handleNominationDecreased,
     handleNominatorLeftCollator,
     handleRewarded,
+    handelCollatorBondedMore,
+    handelCollatorBondedLess,
+    handleCollatorLeft,
+    handleJoinedCollatorCandidates,
 } from '../handlers/parachain-handler';
 // import { Chronicle } from '../types/models/Chronicle';
 import { ChronicleKey } from '../constants';
@@ -24,7 +28,11 @@ const eventsMapping = {
   'parachainStaking/NominationIncreased': handleNominationIncreased,
   'parachainStaking/NominationDecreased': handleNominationDecreased,
   'parachainStaking/NominatorLeftCollator': handleNominatorLeftCollator,
-  'parachainStaking/Rewarded':handleRewarded
+  'parachainStaking/Rewarded':handleRewarded,
+  'parachainStaking/JoinedCollatorCandidates':handleJoinedCollatorCandidates,
+  'parachainStaking/CollatorBondedMore':handelCollatorBondedMore,
+  'parachainStaking/CollatorBondedLess':handelCollatorBondedLess,
+  'parachainStaking/CollatorLeft':handleCollatorLeft,
 };
 
 export async function handleBlock(block: SubstrateBlock): Promise<void> {

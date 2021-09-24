@@ -6,3 +6,9 @@ export const NominationActiontype = {
         "DECREASE":"decrease",
         "LEFT":"left",
     };
+export const CollatorActiontype = {
+        "JOINED":"joinedCollatorCandidates",
+        "BONDMORE":"collatorBondedMore",
+        "BONDLESS":"collatorBondedLess",
+        "LEFT":"left",
+    };
