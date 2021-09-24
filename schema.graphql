@@ -1,12 +1,46 @@
 type Round @entity {
   id: ID!
   roundindex:String
+  numberOfCollator:Int
+  totalbond:String
+  blocknumber:BigInt
+  collators:[Collator]@derivedFrom(field: "round")
 }
 
 type Collator @entity{
   id: ID!
+  roundindex:String
+  account: String! @index
+  selfbond: String
+  totalbond: String
+  round:Round!
 }
 
-type Nominator @entity{
+type CollatorActionHistory @entity{
   id: ID!
+  roundindex:String
+  account: String! @index
+  actiontype:String
+  balancechange:String
+  balancecurrent:String
+  blocknumber:BigInt
+}
+
+type NominatorActionHistory @entity{
+  id: ID!
+  roundindex:String
+  account: String! @index
+  collator: String @index
+  actiontype:String
+  balancechange:String
+  balancecurrent:String
+  blocknumber:BigInt
+}
+
+type RewardHistory @entity{
+  id:ID!
+  account: String!@index
+  issueBlock: BigInt
+  issueindex: String
+  realroundindex:String
 }
