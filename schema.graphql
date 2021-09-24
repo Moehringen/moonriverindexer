@@ -43,4 +43,5 @@ type RewardHistory @entity{
   issueBlock: BigInt
   issueroundindex: String
   realroundindex:String
+  balance:String
 }

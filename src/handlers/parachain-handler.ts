@@ -42,11 +42,11 @@ export const handleCollatorChosen= async (substrateEvent: SubstrateEvent) => {
     round = new Round('RoundCreated' + roundindex);
     round.save();
   }
-
+  let totalbondDec = Number(BigInt(balance).toString(10));
   let id = account + roundindex;
   let record = new Collator(id);
   record.roundindex = roundindex;
-  record.totalbond = balance;
+  record.totalbond = ( totalbondDec / Math.pow(10, 18)).toString();;
   record.account = account;
   record.roundId = round.id;
   await record.save();
@@ -199,6 +199,8 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
   rewardHistory.issueBlock = BigInt(blockNum.toNumber());
   rewardHistory.issueroundindex = issueroundindex.toString();
   rewardHistory.realroundindex = realroundindex.toString();
+  let balanceDec = Number(BigInt(balance).toString(10));
+  rewardHistory.balance = ( balanceDec / Math.pow(10, 18)).toString();
 
   rewardHistory.save();
 
