@@ -310,14 +310,14 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     if (!collatorActionHistory) {
       collatorActionHistory = new CollatorActionHistory(id);
     }
-    let beforebondDec = Number(BigInt(beforebond).toString(10));
-    let afterbondDec = Number(BigInt(afterbond).toString(10));
-    let changebondDec = afterbondDec - beforebondDec;
+    let beforebondDec = -Math.abs(Number(BigInt(beforebond).toString(10)));
+    // let afterbondDec = Number(BigInt(afterbond).toString(10));
+    // let changebondDec = afterbondDec - beforebondDec;
 
     collatorActionHistory.roundindex = roundindex.toString();
     collatorActionHistory.account = account;
-    collatorActionHistory.balancecurrent = ( afterbondDec / Math.pow(10, 18)).toString();;
-    collatorActionHistory.balancechange =  ( changebondDec / Math.pow(10, 18)).toString();
+    // collatorActionHistory.balancecurrent = "";
+    collatorActionHistory.balancechange =  ( beforebondDec / Math.pow(10, 18)).toString();
     collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
     collatorActionHistory.actiontype = CollatorActiontype.LEFT;
     collatorActionHistory.save();
