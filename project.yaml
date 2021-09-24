@@ -146,7 +146,7 @@ network:
 dataSources:
   - name: main
     kind: substrate/Runtime
-    startBlock: 600
+    startBlock: 0
     mapping:
       handlers:
         #- handler: handleRoundCreated
