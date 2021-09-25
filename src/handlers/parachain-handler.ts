@@ -316,7 +316,7 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
 
     collatorActionHistory.roundindex = roundindex.toString();
     collatorActionHistory.account = account;
-    // collatorActionHistory.balancecurrent = "";
+    collatorActionHistory.balancecurrent = "0";
     collatorActionHistory.balancechange =  ( beforebondDec / Math.pow(10, 18)).toString();
     collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
     collatorActionHistory.actiontype = CollatorActiontype.LEFT;
