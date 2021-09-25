@@ -25,7 +25,7 @@ export const handleNewRoundStarted = async (substrateEvent: SubstrateEvent) => {
   record.roundindex = roundindex;
   record.numberOfCollator = collators;
   record.totalbond = balance;
-  record.blocknumber = blockNumber;
+  record.startblock = blockNumber;
   await record.save();
 };
 
