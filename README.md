@@ -110,4 +110,27 @@ CollatorBondMore: 450397
 
 
 
+# Query Example
+This query get all the first 5 round (start from round 2) and the collators of each round. 
 
+```
+query {
+   rounds(first: 5, orderBy: AID_ASC){
+      nodes{
+        roundindex
+        startblock
+        timestamp
+        totalbond
+        numberOfCollator
+        collators{
+          nodes{
+            roundindex
+            timestamp
+            totalbond
+            account
+          }
+        }
+      }
+  }
+}
+```
