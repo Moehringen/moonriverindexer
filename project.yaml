@@ -8,9 +8,9 @@ network:
   #endpoint: wss://service.elara.patract.io/Moonriver/68a73896e0e22cfaa474099b4beb4087
   #dictionary: https://api.subquery.network/sq/subquery/dictionary-polkadot
   #shmily1140
-  endpoint: wss://moonriver.api.onfinality.io/ws?apikey=70d75730-8f86-4ea4-924e-28579479531f
+  #endpoint: wss://moonriver.api.onfinality.io/ws?apikey=70d75730-8f86-4ea4-924e-28579479531f
   #dedicated:
-  #endpoint: wss://node-6847718300928397312.jm.onfinality.io/ws?apikey=8f2dc3db-ce0b-41ec-a6bd-0b8c7cedce49
+  endpoint: wss://node-6847804435419582464.jm.onfinality.io/ws?apikey=f0670c33-1119-4066-8858-c834fce4dcf1
   types:
       AccountId: EthereumAccountId
       Address: AccountId
