@@ -12,7 +12,7 @@ The basic conception of Moonriver staking system can be found [here](https://doc
 
 # Entity Description
 
-Entity Round: to record informaiton in each round, now 1 round = 300 blocks. The 1st round starts from block 0, the second round starts from block 300. 
+Note: 1 round = 300 blocks. The 1st round starts from block 0, the second round starts from block 300. 
 ```
 type Round @entity {
   id: ID!  
@@ -30,7 +30,7 @@ type Collator @entity{
   id: ID!
   roundindex:String
   account: String! @index
-  selfbond: String
+  selfbond: String  // currently this value is NULL 
   totalbond: String
   round:Round!
   timestamp: Date
