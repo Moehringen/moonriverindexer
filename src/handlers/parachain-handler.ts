@@ -35,10 +35,10 @@ export const handleNewRoundStarted = async (substrateEvent: SubstrateEvent) => {
 
   // const {event: {data: [blockNumber,roundindex,collators,balance]}} = substrateEvent;
   logger.info(`New Round created: ${roundindex}`);
-  let record:Round = await Round.get('RoundCreated' + roundindex);
+  let record:Round = await Round.get(roundindex);
   let id:string;
   if (!record) {
-    id = 'RoundCreated' + roundindex;
+    id = roundindex;
     record = new Round(id);
   }
 
@@ -59,10 +59,12 @@ export const handleCollatorChosen= async (substrateEvent: SubstrateEvent) => {
   // logger.info(`New Collator chosen: ${JSON.stringify(event)}`);
   const [roundindex,account,balance] = event.data.toJSON() as [string,string,string];
 
-  let round = await Round.get('RoundCreated' + roundindex);
+  let round = await Round.get(roundindex);
   if (!round) {
     logger.info('Create Round for Collator');
-    round = new Round('RoundCreated' + roundindex);
+    round = new Round(roundindex);
+    round.aid = await getID();
+    await round.save();
   }
   let totalbondDec = Number(BigInt(balance).toString(10));
   let id = account + "-" + roundindex;
