@@ -6,6 +6,7 @@ type Round @entity {
   startblock:BigInt
   collators:[Collator]@derivedFrom(field: "round")
   timestamp: Date
+  aid:BigInt!
 }
 
 type Collator @entity{
@@ -16,6 +17,7 @@ type Collator @entity{
   totalbond: String
   round:Round!
   timestamp: Date
+  aid:BigInt!
 }
 
 type CollatorActionHistory @entity{
@@ -27,6 +29,7 @@ type CollatorActionHistory @entity{
   balancecurrent:String
   blocknumber:BigInt
   timestamp: Date
+  aid:BigInt!
 }
 
 type NominatorActionHistory @entity{
@@ -39,6 +42,7 @@ type NominatorActionHistory @entity{
   balancecurrent:String
   blocknumber:BigInt
   timestamp: Date
+  aid:BigInt!
 }
 
 type RewardHistory @entity{
@@ -49,4 +53,13 @@ type RewardHistory @entity{
   realroundindex:String
   balance:String
   timestamp: Date
+  aid:BigInt!
+}
+
+
+type IDGenerator @entity {
+    "id"
+    id: ID!
+    "asscending ID"
+    aID: BigInt!
 }

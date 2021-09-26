@@ -4,6 +4,26 @@ import { NominationActiontype,CollatorActiontype } from '../constants';
 import { NominatorActionHistory } from '../types/models/NominatorActionHistory';
 import { RewardHistory } from '../types/models/RewardHistory';
 import { CollatorActionHistory } from '../types/models/CollatorActionHistory';
+import { IDGenerator } from '../types/models/IDGenerator';
+
+const generaterID = "GENERATOR"
+
+const getID = async() => {
+  let generator =  await IDGenerator.get(generaterID);
+  if (generator == null) {
+    generator =  new IDGenerator(generaterID);
+    generator.aID = BigInt(0).valueOf();
+    await generator.save();
+    logger.info(`first aID is : ${generator.aID}`);
+    return generator.aID
+  }
+  else{
+    generator.aID =  generator.aID + BigInt(1).valueOf()
+    await generator.save()
+    logger.info(`new aID is : ${generator.aID}`);
+    return generator.aID
+  }
+}
 
 export const handleNewRoundStarted = async (substrateEvent: SubstrateEvent) => {
   const { event, block } = substrateEvent;
@@ -18,7 +38,7 @@ export const handleNewRoundStarted = async (substrateEvent: SubstrateEvent) => {
   let record:Round = await Round.get('RoundCreated' + roundindex);
   let id:string;
   if (!record) {
-    id = 'RoundCreated' +"-" +roundindex;
+    id = 'RoundCreated' + roundindex;
     record = new Round(id);
   }
 
@@ -27,6 +47,7 @@ export const handleNewRoundStarted = async (substrateEvent: SubstrateEvent) => {
   record.totalbond = balance;
   record.startblock = blockNumber;
   record.timestamp = createdAt;
+  record.aid = await getID();
   await record.save();
 };
 
@@ -42,16 +63,16 @@ export const handleCollatorChosen= async (substrateEvent: SubstrateEvent) => {
   if (!round) {
     logger.info('Create Round for Collator');
     round = new Round('RoundCreated' + roundindex);
-    round.save();
   }
   let totalbondDec = Number(BigInt(balance).toString(10));
-  let id = account + roundindex;
+  let id = account + "-" + roundindex;
   let record = new Collator(id);
   record.roundindex = roundindex;
   record.totalbond = ( totalbondDec / Math.pow(10, 18)).toString();;
   record.account = account;
   record.roundId = round.id;
   record.timestamp = createdAt;
+  record.aid = await getID();
   await record.save();
 };
 
@@ -86,7 +107,8 @@ export const handleNomination= async (substrateEvent: SubstrateEvent) => {
   nominationActionHistory.balancechange =  ( balanceDec / Math.pow(10, 18)).toString();
   nominationActionHistory.blocknumber = BigInt(blockNum.toNumber());
   nominationActionHistory.timestamp = createdAt;
-  nominationActionHistory.save();
+  nominationActionHistory.aid = await getID();
+  await nominationActionHistory.save();
 };
 
 
@@ -116,7 +138,8 @@ export const handleNominationIncreased= async (substrateEvent: SubstrateEvent) =
   nominationActionHistory.blocknumber = BigInt(blockNum.toNumber());
   nominationActionHistory.actiontype = NominationActiontype.INCREASE;
   nominationActionHistory.timestamp = createdAt;
-  nominationActionHistory.save();
+  nominationActionHistory.aid = await getID();
+  await nominationActionHistory.save();
 
 
 }
@@ -148,7 +171,8 @@ export const handleNominationDecreased= async (substrateEvent: SubstrateEvent) =
   nominationActionHistory.blocknumber = BigInt(blockNum.toNumber());
   nominationActionHistory.actiontype = NominationActiontype.DECREASE;
   nominationActionHistory.timestamp = createdAt;
-  nominationActionHistory.save();
+  nominationActionHistory.aid = await getID();
+  await nominationActionHistory.save();
 }
 
 export const handleNominatorLeftCollator = async (substrateEvent: SubstrateEvent) => {
@@ -178,7 +202,8 @@ export const handleNominatorLeftCollator = async (substrateEvent: SubstrateEvent
   nominationActionHistory.blocknumber = BigInt(blockNum.toNumber());
   nominationActionHistory.actiontype = NominationActiontype.LEFT;
   nominationActionHistory.timestamp = createdAt;
-  nominationActionHistory.save(); 
+  nominationActionHistory.aid = await getID();
+  await nominationActionHistory.save(); 
 }
 
 
@@ -209,7 +234,8 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
   let balanceDec = Number(BigInt(balance).toString(10));
   rewardHistory.balance = ( balanceDec / Math.pow(10, 18)).toString();
   rewardHistory.timestamp = createdAt;
-  rewardHistory.save();
+  rewardHistory.aid = await getID();
+  await rewardHistory.save();
 }
 
   
@@ -239,7 +265,8 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
     collatorActionHistory.actiontype = CollatorActiontype.JOINED;
     collatorActionHistory.timestamp = createdAt;
-    collatorActionHistory.save();
+    collatorActionHistory.aid =await getID();
+    await collatorActionHistory.save();
   };
   
   
@@ -271,7 +298,8 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
     collatorActionHistory.actiontype = CollatorActiontype.BONDMORE;
     collatorActionHistory.timestamp = createdAt;
-    collatorActionHistory.save();
+    collatorActionHistory.aid = await getID();
+    await collatorActionHistory.save();
   };
 
 
@@ -301,7 +329,8 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
     collatorActionHistory.actiontype = CollatorActiontype.BONDLESS;
     collatorActionHistory.timestamp = createdAt;
-    collatorActionHistory.save();
+    collatorActionHistory.aid = await getID();
+    await collatorActionHistory.save();
   };
 
   export const handleCollatorLeft = async (substrateEvent: SubstrateEvent) => {
@@ -330,5 +359,6 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     collatorActionHistory.blocknumber = BigInt(blockNum.toNumber());
     collatorActionHistory.actiontype = CollatorActiontype.LEFT;
     collatorActionHistory.timestamp = createdAt;
-    collatorActionHistory.save();
+    collatorActionHistory.aid = await getID();
+    await collatorActionHistory.save();
   };
