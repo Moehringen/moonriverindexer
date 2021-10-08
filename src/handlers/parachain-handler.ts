@@ -42,7 +42,7 @@ export const handleNewRoundStarted = async (substrateEvent: SubstrateEvent) => {
     record = new Round(id);
   }
 
-  record.roundindex = roundindex;
+  record.roundindex = parseInt(roundindex);
   record.numberOfCollator = collators;
   record.totalbond = balance;
   record.startblock = blockNumber;
@@ -69,7 +69,7 @@ export const handleCollatorChosen= async (substrateEvent: SubstrateEvent) => {
   let totalbondDec = Number(BigInt(balance).toString(10));
   let id = account + "-" + roundindex;
   let record = new Collator(id);
-  record.roundindex = roundindex;
+  record.roundindex = parseInt(roundindex);
   record.totalbond = ( totalbondDec / Math.pow(10, 18)).toString();;
   record.account = account;
   record.roundId = round.id;
@@ -103,7 +103,7 @@ export const handleNomination= async (substrateEvent: SubstrateEvent) => {
     else
     nominationActionHistory.actiontype = NominationActiontype.NOMINATIONTOBOTTOM;
   });
-  nominationActionHistory.roundindex = roundindex.toString();
+  nominationActionHistory.roundindex = parseInt(roundindex.toString());
   nominationActionHistory.account = nominatoraccount;
   nominationActionHistory.collator = collatoraccount;
   nominationActionHistory.balancechange =  ( balanceDec / Math.pow(10, 18)).toString();
@@ -133,7 +133,7 @@ export const handleNominationIncreased= async (substrateEvent: SubstrateEvent) =
   }
   let balanceDec = Number(BigInt(balance).toString(10));
 
-  nominationActionHistory.roundindex = roundindex.toString();
+  nominationActionHistory.roundindex = parseInt(roundindex.toString());
   nominationActionHistory.account = nominatoraccount;
   nominationActionHistory.collator = collatoraccount;
   nominationActionHistory.balancechange =  ( balanceDec / Math.pow(10, 18)).toString();
@@ -166,7 +166,7 @@ export const handleNominationDecreased= async (substrateEvent: SubstrateEvent) =
   let balanceDec = Number(BigInt(balance).toString(10));
   let negtiveBalance = -Math.abs(balanceDec);
 
-  nominationActionHistory.roundindex = roundindex.toString();
+  nominationActionHistory.roundindex = parseInt(roundindex.toString());
   nominationActionHistory.account = nominatoraccount;
   nominationActionHistory.collator = collatoraccount;
   nominationActionHistory.balancechange =  ( negtiveBalance / Math.pow(10, 18)).toString();
@@ -197,7 +197,7 @@ export const handleNominatorLeftCollator = async (substrateEvent: SubstrateEvent
   let balanceDec = Number(BigInt(balance).toString(10));
   let negtiveBalance = -Math.abs(balanceDec);
 
-  nominationActionHistory.roundindex = roundindex.toString();
+  nominationActionHistory.roundindex = parseInt(roundindex.toString());
   nominationActionHistory.account = nominatoraccount;
   nominationActionHistory.collator = collatoraccount;
   nominationActionHistory.balancechange =  ( negtiveBalance / Math.pow(10, 18)).toString();
@@ -231,8 +231,8 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
   rewardHistory.id = id;
   rewardHistory.account = account;
   rewardHistory.issueBlock = BigInt(blockNum.toNumber());
-  rewardHistory.issueroundindex = issueroundindex.toString();
-  rewardHistory.realroundindex = realroundindex.toString();
+  rewardHistory.issueroundindex = parseInt(issueroundindex.toString());
+  rewardHistory.realroundindex = parseInt(realroundindex.toString());
   let balanceDec = Number(BigInt(balance).toString(10));
   rewardHistory.balance = ( balanceDec / Math.pow(10, 18)).toString();
   rewardHistory.timestamp = createdAt;
@@ -260,7 +260,7 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     let selfbondDec = Number(BigInt(selfbond).toString(10));
     let totalbondDec = Number(BigInt(selfbond).toString(10));
 
-    collatorActionHistory.roundindex = roundindex.toString();
+    collatorActionHistory.roundindex = parseInt(roundindex.toString());
     collatorActionHistory.account = account;
     collatorActionHistory.balancecurrent = ( selfbondDec / Math.pow(10, 18)).toString();;
     collatorActionHistory.balancechange =  ( selfbondDec / Math.pow(10, 18)).toString();
@@ -293,7 +293,7 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     let afterbondDec = Number(BigInt(afterbond).toString(10));
     let changebondDec = afterbondDec - beforebondDec;
 
-    collatorActionHistory.roundindex = roundindex.toString();
+    collatorActionHistory.roundindex = parseInt(roundindex.toString());
     collatorActionHistory.account = account;
     collatorActionHistory.balancecurrent = ( afterbondDec / Math.pow(10, 18)).toString();;
     collatorActionHistory.balancechange =  ( changebondDec / Math.pow(10, 18)).toString();
@@ -324,7 +324,7 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     let afterbondDec = Number(BigInt(afterbond).toString(10));
     let changebondDec = -Math.abs(afterbondDec - beforebondDec);
 
-    collatorActionHistory.roundindex = roundindex.toString();
+    collatorActionHistory.roundindex = parseInt(roundindex.toString());
     collatorActionHistory.account = account;
     collatorActionHistory.balancecurrent = ( afterbondDec / Math.pow(10, 18)).toString();;
     collatorActionHistory.balancechange =  ( changebondDec / Math.pow(10, 18)).toString();
@@ -354,7 +354,7 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     // let afterbondDec = Number(BigInt(afterbond).toString(10));
     // let changebondDec = afterbondDec - beforebondDec;
 
-    collatorActionHistory.roundindex = roundindex.toString();
+    collatorActionHistory.roundindex = parseInt(roundindex.toString());
     collatorActionHistory.account = account;
     collatorActionHistory.balancecurrent = "0";
     collatorActionHistory.balancechange =  ( beforebondDec / Math.pow(10, 18)).toString();

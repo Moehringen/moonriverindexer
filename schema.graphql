@@ -1,6 +1,6 @@
 type Round @entity {
   id: ID!
-  roundindex:String
+  roundindex:Int
   numberOfCollator:Int
   totalbond:String
   startblock:BigInt
@@ -11,7 +11,7 @@ type Round @entity {
 
 type Collator @entity{
   id: ID!
-  roundindex:String
+  roundindex:Int
   account: String! @index
   selfbond: String
   totalbond: String
@@ -22,7 +22,7 @@ type Collator @entity{
 
 type CollatorActionHistory @entity{
   id: ID!
-  roundindex:String
+  roundindex:Int
   account: String! @index
   actiontype:String
   balancechange:String
@@ -34,7 +34,7 @@ type CollatorActionHistory @entity{
 
 type NominatorActionHistory @entity{
   id: ID!
-  roundindex:String
+  roundindex:Int
   account: String! @index
   collator: String @index
   actiontype:String
@@ -49,8 +49,8 @@ type RewardHistory @entity{
   id:ID!
   account: String!@index
   issueBlock: BigInt
-  issueroundindex: String
-  realroundindex:String
+  issueroundindex: Int
+  realroundindex:Int
   balance:String
   timestamp: Date
   aid:BigInt!
