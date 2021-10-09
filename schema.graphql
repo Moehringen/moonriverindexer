@@ -71,3 +71,12 @@ type PointHistory @entity{
   block:BigInt
   point: Int
 }
+
+type CollatorNumberHistory @entity{
+  id:ID!
+  block:BigInt
+  old:Int
+  new:Int
+  timestamp: Date
+  roundindex:Int
+}

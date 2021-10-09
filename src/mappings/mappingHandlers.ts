@@ -15,6 +15,7 @@ import {
     handelCollatorBondedLess,
     handleCollatorLeft,
     handleJoinedCollatorCandidates,
+    handleTotalSelectedSetChange,
 } from '../handlers/parachain-handler';
 // import { Chronicle } from '../types/models/Chronicle';
 import { ChronicleKey, PointReward } from '../constants';
@@ -34,13 +35,14 @@ const eventsMapping = {
   'parachainStaking/CollatorBondedMore':handelCollatorBondedMore,
   'parachainStaking/CollatorBondedLess':handelCollatorBondedLess,
   'parachainStaking/CollatorLeft':handleCollatorLeft,
+  'parachainStaking/TotalSelectedSet':handleTotalSelectedSetChange,
 };
 
 export async function handleBlock(block: SubstrateBlock): Promise<void> {
   let number = block.block.header.number.toNumber();
   let extrinsics = block.block.extrinsics;
-  extrinsics.forEach((ex, index) => {
-    const { isSigned, meta, method: { args, method, section } } = ex;
+  for(let i=0;i<extrinsics.length;i++){
+    const { isSigned, meta, method: { args, method, section } } = extrinsics[i];
     // check the points award
     if (section == 'authorInherent') {
       //logger.info(`${section}.${method}(${args.map((a) => a.toString()).join(', ')})`);
@@ -50,10 +52,9 @@ export async function handleBlock(block: SubstrateBlock): Promise<void> {
       pointHistory.block = BigInt(number);
       pointHistory.account = args[0].toString();
       pointHistory.point = PointReward.PointPerBlock;
-      pointHistory.save();
+      await pointHistory.save();
     }
-  });
-
+  };
 }
 
 export async function handleEvent(event: SubstrateEvent): Promise<void> {

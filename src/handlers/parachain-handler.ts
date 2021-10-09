@@ -5,6 +5,7 @@ import { NominatorActionHistory } from '../types/models/NominatorActionHistory';
 import { RewardHistory } from '../types/models/RewardHistory';
 import { CollatorActionHistory } from '../types/models/CollatorActionHistory';
 import { IDGenerator } from '../types/models/IDGenerator';
+import {CollatorNumberHistory} from '../types/models/CollatorNumberHistory';
 
 const generaterID = "GENERATOR"
 
@@ -363,4 +364,26 @@ export const handleRewarded = async (substrateEvent: SubstrateEvent) => {
     collatorActionHistory.timestamp = createdAt;
     collatorActionHistory.aid = await getID();
     await collatorActionHistory.save();
+  };
+
+
+
+  export const handleTotalSelectedSetChange = async (substrateEvent: SubstrateEvent) => {
+    const { event, block } = substrateEvent;
+    const { timestamp: createdAt, block: rawBlock } = block;
+    const { number: blockNum } = rawBlock.header;
+  
+    logger.info(`TotalSelectedSet happens: ${JSON.stringify(event)}`);
+    logger.info(`TotalSelectedSet happens at:` + blockNum);
+    const [oldNumber,newNumber] = event.data.toJSON() as [number,number];
+    let roundindex = Math.floor(blockNum.toNumber()/300) + 1;
+    let id = blockNum.toString();
+
+    let collatorNumberHistory = new CollatorNumberHistory(id);
+    collatorNumberHistory.old = oldNumber;
+    collatorNumberHistory.new = newNumber;
+    collatorNumberHistory.roundindex = parseInt(roundindex.toString());
+    collatorNumberHistory.block = BigInt(blockNum.toNumber());
+    collatorNumberHistory.timestamp = createdAt;
+    await collatorNumberHistory.save();
   };
