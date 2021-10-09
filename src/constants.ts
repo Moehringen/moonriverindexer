@@ -12,3 +12,7 @@ export const CollatorActiontype = {
         "BONDLESS":"collatorBondedLess",
         "LEFT":"left",
     };
+
+export const PointReward= {
+        "PointPerBlock":20,
+    };

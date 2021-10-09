@@ -17,7 +17,7 @@ import {
     handleJoinedCollatorCandidates,
 } from '../handlers/parachain-handler';
 // import { Chronicle } from '../types/models/Chronicle';
-import { ChronicleKey } from '../constants';
+import { ChronicleKey, PointReward } from '../constants';
 
 
 const noop = async () => {};
@@ -49,6 +49,7 @@ export async function handleBlock(block: SubstrateBlock): Promise<void> {
       pointHistory.roundindex = Math.floor(number/300) + 1;
       pointHistory.block = BigInt(number);
       pointHistory.account = args[0].toString();
+      pointHistory.point = PointReward.PointPerBlock;
       pointHistory.save();
     }
   });

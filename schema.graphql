@@ -69,4 +69,5 @@ type PointHistory @entity{
   account: String! @index
   roundindex:Int
   block:BigInt
+  point: Int
 }
