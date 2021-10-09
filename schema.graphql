@@ -63,3 +63,10 @@ type IDGenerator @entity {
     "asscending ID"
     aID: BigInt!
 }
+
+type PointHistory @entity{
+  id:ID!
+  account: String! @index
+  roundindex:Int
+  block:BigInt
+}

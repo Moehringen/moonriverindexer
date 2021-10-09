@@ -1,6 +1,7 @@
 import { SignedBlock } from '@polkadot/types/interfaces';
 import { SubstrateExtrinsic, SubstrateEvent } from '@subql/types';
 import { SubstrateBlock } from '@subql/types';
+import { PointHistory } from '../types/models/PointHistory';
 
 import {
     handleNewRoundStarted,
@@ -36,7 +37,22 @@ const eventsMapping = {
 };
 
 export async function handleBlock(block: SubstrateBlock): Promise<void> {
-  
+  let number = block.block.header.number.toNumber();
+  let extrinsics = block.block.extrinsics;
+  extrinsics.forEach((ex, index) => {
+    const { isSigned, meta, method: { args, method, section } } = ex;
+    // check the points award
+    if (section == 'authorInherent') {
+      //logger.info(`${section}.${method}(${args.map((a) => a.toString()).join(', ')})`);
+      let id = number.toString();
+      let pointHistory = new PointHistory(id);
+      pointHistory.roundindex = Math.floor(number/300) + 1;
+      pointHistory.block = BigInt(number);
+      pointHistory.account = args[0].toString();
+      pointHistory.save();
+    }
+  });
+
 }
 
 export async function handleEvent(event: SubstrateEvent): Promise<void> {
