@@ -21,9 +21,9 @@ network:
         nonce: U256
         balance: u128
       RewardInfo: 
-        total_reward: Balance
-        claimed_reward: Balance
-        contributed_relay_addresses: Vec<RelayChainAccountId>
+        totalReward: Balance
+        claimedReward: Balance
+        contributedRelayAddresses: Vec<RelayChainAccountId>
       VestingBlockNumber: u32
       NominatorStatus: 
         _enum: 
@@ -33,14 +33,14 @@ network:
         nominations: Vec<Bond>
         revocations: Vec<AccountId>
         total: Balance
-        scheduled_revocations_count: u32
-        scheduled_revocations_total: Balance
+        scheduledRevocationsCount: u32
+        scheduledRevocationsTotal: Balance
         status: NominatorStatus
       ExitQ: 
         candidates: Vec<AccountId>
-        nominators_leaving: Vec<AccountId>
-        candidate_schedule: Vec<(AccountId, RoundIndex)>
-        nominator_schedule: Vec<(AccountId, Option<AccountId>, RoundIndex)>
+        nominatorsLeaving: Vec<AccountId>
+        candidateSchedule: Vec<(AccountId, RoundIndex)>
+        nominatorSchedule: Vec<(AccountId, Option<AccountId>, RoundIndex)>
       EthereumSignature: 
         r: H256
         s: H256
@@ -49,10 +49,10 @@ network:
         id: AccountId
         bond: Balance
         nominators: Vec<AccountId>
-        top_nominators: Vec<Bond>
-        bottom_nominators: Vec<Bond>
-        total_counted: Balance
-        total_backing: Balance
+        topNominators: Vec<Bond>
+        bottomNominators: Vec<Bond>
+        totalCounted: Balance
+        totalBacking: Balance
         state: CollatorStatus
       NominatorAdded: 
         _enum: 
